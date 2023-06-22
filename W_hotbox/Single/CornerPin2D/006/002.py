@@ -2,12 +2,12 @@
 #
 # AUTOMATICALLY GENERATED FILE TO BE USED BY W_HOTBOX
 #
-# NAME: New
+# NAME: Clear Animation
 #
 #----------------------------------------------------------------------------------------------------------
 
-rvc = 'rv ' + nuke.selectedNode()["file"].value() + ' &'
-print (rvc)
-clipboard = QtWidgets.QApplication.clipboard()
-clipboard.setText(rvc)
-os.system('gnome-terminal')
+for i in nuke.selectedNodes():
+    i.knob('from1').clearAnimated()
+    i.knob('from2').clearAnimated()
+    i.knob('from3').clearAnimated()
+    i.knob('from4').clearAnimated()

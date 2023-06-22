@@ -2,9 +2,14 @@
 #
 # AUTOMATICALLY GENERATED FILE TO BE USED BY W_HOTBOX
 #
-# NAME: Reload
+# NAME: Rename
 #
 #----------------------------------------------------------------------------------------------------------
 
 for i in nuke.selectedNodes():
-    nuke.Script_Knob.execute(i.knob('reload'))
+
+    path =  i.knob('file').value()
+    path = path.split('/')[-1]
+    path = path.split('.')[0]
+    print path
+    i.knob('name').setValue(path)

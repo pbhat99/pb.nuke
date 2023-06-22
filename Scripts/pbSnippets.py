@@ -45,3 +45,25 @@ def nLabel():
         for n in nuke.selectedNodes():
             n['label'].setValue(txt)
 
+
+
+
+
+# # CREATE A NEW FORMAT
+# square2k = '2048 2048 square2k'
+# nuke.addFormat( square2k )
+
+# # SET THE ROOT TO USE BOTH BASE AND PROXY FORMATS
+# root = nuke.root()
+# root['format'].setValue( 'square2k' )
+
+# nuke.root()['format'].value().width()
+# nuke.root()['format'].value().height()
+
+# nuke.root()['format'].value().name()
+# nuke.root()['format'].value().pixelAspect()
+# nuke.root()['format'].value().x()
+# nuke.root()['format'].value().y()
+# nuke.root()['format'].value().r()
+# nuke.root()['format'].value().t()
+

@@ -2,17 +2,23 @@
 #
 # AUTOMATICALLY GENERATED FILE TO BE USED BY W_HOTBOX
 #
-# NAME: RV
+# NAME: Farm It!
 #
 #----------------------------------------------------------------------------------------------------------
 
-import subprocess
-import shlex
-import wiz
+print ('submitting to farm...\n ----------------------- \n')
 
-context = wiz.resolve_context(["mill-rv"])
+nuke.root()['proxy'].setValue(0)
+print ('proxy turned off\n ----------------------- \n')
 
-for node in nuke.selectedNodes("Write"):
-    command = context["command"]["rv"]
-    command += " " + node["file"].value()
-    subprocess.Popen(shlex.split(command), env=context["environ"])
+nuke.scriptSave("")
+print ('script saved\n ----------------------- \n')
+
+rng = nuke.root().knob('last_frame').value() -nuke.root().knob('first_frame').value()
+rng = int((rng/5)+1)
+
+import sickle_nuke
+sickle_nuke.farm_panel(outputs_from_selection=True, chunks=rng,rendergroup=2)
+
+#from mill_farmer_2 import MillFarm2
+#MillFarm2.farm_panel(outputs_from_selection=True, chunks=rng,)

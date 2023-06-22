@@ -2,22 +2,46 @@
 #
 # AUTOMATICALLY GENERATED FILE TO BE USED BY W_HOTBOX
 #
-# NAME: set animated
+# NAME: Scale Up
 #
 #----------------------------------------------------------------------------------------------------------
 
-for i in nuke.selectedNodes():
-    curValueto1 = i.knob('to1').value()
-    curValueto2 = i.knob('to2').value()
-    curValueto3 = i.knob('to3').value()
-    curValueto4 = i.knob('to4').value()
-    
-    i.knob('to1').setAnimated()
-    i.knob('to2').setAnimated()
-    i.knob('to3').setAnimated()
-    i.knob('to4').setAnimated()
-    
-    curValue = i.knob('to1').setValue(curValueto1)
-    curValue = i.knob('to2').setValue(curValueto2)
-    curValue = i.knob('to3').setValue(curValueto3)
-    curValue = i.knob('to4').setValue(curValueto4)
+def scaleUpCornerpin():
+
+    selNode = None
+    try:
+      selNode = nuke.selectedNode()
+    except ValueError:  # no node selected 
+      pass
+
+    if selNode is not None:
+        selClass = selNode.Class()
+        if selClass == 'CornerPin2D':
+            to1x = selNode['to1'].getValue(0)
+            selNode['to1'].setValue(to1x-10.0, 0)
+
+            to1y = selNode['to1'].getValue(1)
+            selNode['to1'].setValue(to1y-10.0, 1)
+
+            to2x = selNode['to2'].getValue(0)
+            selNode['to2'].setValue(to2x+10.0, 0)
+
+            to2y = selNode['to2'].getValue(1)
+            selNode['to2'].setValue(to2y-10.0, 1)
+
+
+            to3x = selNode['to3'].getValue(0)
+            selNode['to3'].setValue(to3x+10.0, 0)
+
+            to3y = selNode['to3'].getValue(1)
+            selNode['to3'].setValue(to3y+10.0, 1)
+
+            to4x = selNode['to4'].getValue(0)
+            selNode['to4'].setValue(to4x-10.0, 0)
+
+            to4y = selNode['to4'].getValue(1)
+            selNode['to4'].setValue(to4y+10.0, 1)
+        else:
+            return
+            
+scaleUpCornerpin()

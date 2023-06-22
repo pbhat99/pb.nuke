@@ -2,23 +2,52 @@
 #
 # AUTOMATICALLY GENERATED FILE TO BE USED BY W_HOTBOX
 #
-# NAME: Farm It!
+# NAME: Import
 #
 #----------------------------------------------------------------------------------------------------------
 
-print ('submitting to farm...\n ----------------------- \n')
+import os
 
-nuke.root()['proxy'].setValue(0)
-print ('proxy turned off\n ----------------------- \n')
 
-nuke.scriptSave("")
-print ('script saved\n ----------------------- \n')
+def check_for_right_endswitch(string, keys):
+    for key in keys:
+        if string.endswith(key):
+            return True
+            break
+            
+def file_exists(file_path):
+    os.path.exists(file_path)
 
-rng = nuke.root().knob('last_frame').value() -nuke.root().knob('first_frame').value()
-rng = int((rng/5)+1)
+endswitches = ['exr', 'dpx', 'png', 'tiff', 'mov', 'mp4', 'psd', 'jpeg', 'jpg']
 
-import sickle_nuke
-sickle_nuke.farm_panel(outputs_from_selection=True, chunks=rng,rendergroup=2)
-
-#from mill_farmer_2 import MillFarm2
-#MillFarm2.farm_panel(outputs_from_selection=True, chunks=rng,)
+for i in nuke.selectedNodes():
+    file = i.knob('file').value()
+    
+    if check_for_right_endswitch(file, endswitches) and os.path.split(file)[0]:
+        
+        if file.endswith("mov") or file.endswith("mp4"):
+            colorspace = 'sRGB'
+            read = nuke.createNode('Read', "file {"+file+"}", inpanel = False)
+        
+        else:
+            all_files = os.listdir(os.path.dirname(file))
+            right_files = []
+            for q in all_files:
+                if check_for_right_endswitch(q, endswitches):
+                    right_files.append(q)
+            files_amount = len(right_files)
+            first_file = str(right_files[0])
+            first_file_split = first_file.rsplit(".")
+            first = int(first_file_split[-2])
+            last = first + (files_amount-1)
+            
+            colorspace = i.knob('colorspace').value()
+            colorspace = colorspace.replace("default (", "").replace(")", "")
+            
+            read = nuke.nodes.Read(file=file, colorspace=colorspace, first=first, last=last)
+        
+        read.setXpos(i.xpos())
+        read.setYpos(i.ypos() + 100)
+        
+    else:
+        nuke.message('Be sure that file has right extension')
